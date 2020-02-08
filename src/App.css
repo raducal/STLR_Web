@@ -1,10 +1,165 @@
+@import url("https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto|Sarabun&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.canvas {
-  height: 4rem;
-  width: 4rem;
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+/* font-family: 'Open Sans', sans-serif;
+font-family: 'Lato', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Sarabun', sans-serif; */
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #222;
+}
+
+/* NAVBAR */
+.navbar {
+  background: transparent;
+  height: 5rem;
+}
+
+.nav-container {
+  display: flex;
+  width: 75%;
+  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.navbar-logo {
+  height: 4.5rem;
+  width: 4.5rem;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.logo {
+  background: url("./image/stlr.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 2.75rem;
+  width: 2.75rem;
+}
+
+.nav-links {
+  display: flex;
+}
+
+.nav-links li {
+  padding: 15px;
+}
+
+/* HERO */
+
+.hero {
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+
+.hero-background {
+  background: linear-gradient(
+      to bottom,
+      rgba(30, 87, 153, 0.7) 0%,
+      rgba(41, 137, 216, 0.7) 50%,
+      rgba(32, 124, 202, 0.7) 90%,
+      rgba(125, 185, 232, 0.7) 100%
+    ),
+    url("./image/student.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* width: 75%; */
+  height: 100%;
+}
+
+.hero-text {
+  color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: left;
+  justify-content: center;
+  padding-left: 8rem;
+  padding-bottom: 5rem;
+}
+
+.hero-text h3 {
+  font-size: 5.5rem;
+  font-family: "Sarabun", sans-serif;
+}
+
+.hero-text h5 {
+  font-size: 2.5rem;
+  color: #d8d8d8;
+  font-weight: 300;
+}
+
+.hero-text p {
+  font-size: 1.7rem;
+  color: #dcdcdc;
+}
+
+/* LOGIN */
+.login-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 3rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form input {
+  margin: 0.5rem;
+  padding: 5px;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  border-bottom: 1px solid #207cca;
+}
+
+.form h3 {
+  padding-left: 10px;
+  padding-bottom: 1.2rem;
+}
+
+.form button {
+  margin: 0.7rem;
+  background: #207cca;
+  padding: 0.5rem;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
 }

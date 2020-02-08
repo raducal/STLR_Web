@@ -1,15 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 
-import { EventContext } from "../context/EventContext";
+import { AuthContext } from "../context/AuthContext";
 
 const Events = () => {
-  const { events } = useContext(EventContext);
+  // const { events } = useContext(EventContext);
+  const { events } = useContext(AuthContext);
+
+  console.log(events);
 
   return (
     <div>
       {events.map(event => (
-        <div>
+        <div key={Math.random()}>
           <p>{event.title}</p>
         </div>
       ))}

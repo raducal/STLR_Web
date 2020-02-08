@@ -5,10 +5,15 @@ export const EventContext = createContext();
 
 const EventProvider = ({ children }) => {
   const [events, setEvents] = useState([]);
-  const getEvents = async () => {
-    const res = await axios.get("/scrape");
 
-    setEvents(res.data);
+  const getEvents = async () => {
+    try {
+      const res = await axios.get("/scrape");
+
+      setEvents(res.data.event);
+    } catch (error) {
+      console.log("errorrrr");
+    }
   };
 
   useEffect(() => {
