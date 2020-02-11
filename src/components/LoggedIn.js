@@ -9,18 +9,8 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
 const LoggedIn = () => {
-  // const authContext = useContext(AuthContext);
-
-  // const { loadUser } = authContext;
-
-  // useEffect(() => {
-  //   loadUser();
-  //   // eslint-disable-next-line
-  // }, []);
-
   return (
-    <div>
-      <QRCode />
+    <div className="logged-in-div">
       <Events />
     </div>
   );

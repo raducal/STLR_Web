@@ -4,12 +4,10 @@ import { AuthContext } from "../context/AuthContext";
 
 const Qrgen = () => {
   const { events } = useContext(AuthContext);
-
-  console.log(events);
   return (
     <div>
       {events.map(event => (
-        <div key={Math.random()}>
+        <div key={event._id}>
           <QRCode
             id="123456"
             value={event.qrID}

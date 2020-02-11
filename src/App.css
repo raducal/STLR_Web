@@ -163,3 +163,115 @@ a {
   font-size: 1rem;
   cursor: pointer;
 }
+
+/* EVENTS PAGE */
+.logged-in-div {
+  padding: 1rem 0;
+}
+.events {
+  width: 80%;
+  margin: 0 auto;
+  /* position: relative; */
+}
+
+.event-div {
+  display: flex;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  background: #fff;
+  margin-bottom: 2rem;
+  height: 8rem;
+  border-radius: 10px;
+}
+
+.event-img {
+  background: url("./image/stlr.jpg");
+  height: 3.5rem;
+  width: 3.5rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.event-div-right {
+  flex: 5;
+  display: grid;
+  grid-template-columns: 0.7fr 6fr 1fr;
+  align-items: center;
+}
+
+.event-div-left {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.event-due-title {
+  padding: 1rem 0 0 0;
+}
+
+.event-details {
+  padding-top: 0.5rem;
+}
+
+.event-design {
+  background: #207cca;
+  width: 1.5rem;
+  height: 100%;
+  align-self: flex-start;
+  border-radius: 10px 0 0 10px;
+  position: absolute;
+}
+
+.qrCode-btn {
+  padding: 7px;
+  width: 70%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: lightseagreen;
+  color: #f4f4f4;
+}
+
+/* MODAL */
+.modal-background {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.6);
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modal-open {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(50%, 50%);
+  background: #fff;
+  border-radius: 10px;
+  z-index: 999;
+  height: 50%;
+  width: 50%;
+  padding: 2rem;
+}
+
+.modal-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.close-modal-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  background: #207cca;
+  color: #f4f4f4;
+  padding: 0.5rem;
+  border-radius: 0 10px 0 0;
+  cursor: pointer;
+}

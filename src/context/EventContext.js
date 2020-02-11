@@ -4,24 +4,29 @@ import axios from "axios";
 export const EventContext = createContext();
 
 const EventProvider = ({ children }) => {
-  const [events, setEvents] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [qrCode_id, setqrID] = useState("");
+  const [event_id, setID] = useState({});
+  const [title, setTitle] = useState("");
 
-  const getEvents = async () => {
-    try {
-      const res = await axios.get("/scrape");
-
-      setEvents(res.data.event);
-    } catch (error) {
-      console.log("errorrrr");
-    }
+  const openModal = (qr, id, e_title) => {
+    setModal(true);
+    setqrID(qr);
+    setID(id);
+    setTitle(e_title);
   };
 
-  useEffect(() => {
-    getEvents();
-  });
+  const closeModal = () => {
+    setModal(false);
+    setqrID("");
+    setID({});
+    setTitle("");
+  };
 
   return (
-    <EventContext.Provider value={{ events, getEvents }}>
+    <EventContext.Provider
+      value={{ modal, openModal, closeModal, qrCode_id, event_id, title }}
+    >
       {children}
     </EventContext.Provider>
   );

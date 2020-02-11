@@ -3,12 +3,9 @@ import axios from "axios";
 import { useReducer } from "react";
 import AuthReducer from "./AuthReducer";
 
-import setAuthToken from "../utils/setAuthToken";
-
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  // const [isAuthenticated, setAuthentication] = useState(null);
   const initialState = {
     isAuthenticated: null,
     token: null,
@@ -21,7 +18,6 @@ const AuthProvider = ({ children }) => {
     let store = JSON.parse(localStorage.getItem("login"));
 
     if (store && store.isAuthenticated) {
-      console.log("work");
       const res = await axios.get("/scrape", {
         headers: { Authorization: `Bearer ${store.token}` }
       });
@@ -56,6 +52,20 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     dispatch({ type: "LOGOUT" });
   };
+
+  const changeQR = async event => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    try {
+      const res = await axios.post("/changeqr", event.qrID, config);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -64,7 +74,8 @@ const AuthProvider = ({ children }) => {
         logout,
         loadUser,
         events: state.events,
-        loading: state.loading
+        loading: state.loading,
+        changeQR
       }}
     >
       {children}
