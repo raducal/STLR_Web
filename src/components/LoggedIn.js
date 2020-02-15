@@ -9,6 +9,8 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
 const LoggedIn = () => {
+  const { loadUser, events } = useContext(AuthContext);
+
   return (
     <div className="logged-in-div">
       <Events />

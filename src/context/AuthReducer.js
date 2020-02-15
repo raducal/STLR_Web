@@ -20,6 +20,7 @@ export default (state, action) => {
         token: null
       };
     case "USER_LOADED":
+      console.log(action.payload.event);
       return {
         ...state,
         isAuthenticated: true,

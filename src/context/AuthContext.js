@@ -14,6 +14,12 @@ const AuthProvider = ({ children }) => {
   };
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
+  const getQRID = title => {
+    let event1 = state.events.find(event => event.title === title);
+    console.log(event1);
+    return event1;
+  };
+
   const loadUser = async () => {
     let store = JSON.parse(localStorage.getItem("login"));
 
@@ -53,19 +59,6 @@ const AuthProvider = ({ children }) => {
     dispatch({ type: "LOGOUT" });
   };
 
-  const changeQR = async event => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    try {
-      const res = await axios.post("/changeqr", event.qrID, config);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <AuthContext.Provider
       value={{
@@ -75,7 +68,7 @@ const AuthProvider = ({ children }) => {
         loadUser,
         events: state.events,
         loading: state.loading,
-        changeQR
+        getQRID
       }}
     >
       {children}

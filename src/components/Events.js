@@ -16,9 +16,9 @@ const Events = () => {
   } = useContext(EventContext);
   const { events } = useContext(AuthContext);
 
-  const allEvents = events;
+  // const allEvents = events;
 
-  allEvents.map(event => {
+  events.map(event => {
     if (event.due !== undefined) {
       const findGMT = event.due.includes("GMT+");
       if (findGMT) {
@@ -36,10 +36,12 @@ const Events = () => {
   });
 
   const modalopen = (id, qrID, eventTitle) => {
+    console.log(modal);
+    console.log(qrID);
     return (
       <div className="modal-background">
         <div className="modal-open">
-          <button onClick={closeModal} className="close-modal-btn">
+          <button onClick={() => closeModal()} className="close-modal-btn">
             X
           </button>
           <div className="modal-info">
@@ -61,7 +63,7 @@ const Events = () => {
 
   return (
     <div className="events">
-      {allEvents.map(event => (
+      {events.map(event => (
         <div className="event-div" key={event._id}>
           <div className="event-div-left">
             <div className="event-due-title">
@@ -83,9 +85,8 @@ const Events = () => {
           </div>
         </div>
       ))}
-
       {modal ? (
-        modalopen(qrCode_id, event_id, title)
+        modalopen(event_id, qrCode_id, title)
       ) : (
         <div className="modal-closed"></div>
       )}

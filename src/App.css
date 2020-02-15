@@ -27,9 +27,25 @@ a {
 }
 
 /* NAVBAR */
-.navbar {
+.navbar-main {
   background: transparent;
   height: 5rem;
+  position: relative;
+}
+
+.navbar-other {
+  background: transparent;
+  height: 5rem;
+  position: relative;
+}
+
+.navbar-other::after {
+  content: "";
+  background: lightskyblue;
+  height: 0.1rem;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
 }
 
 .nav-container {
@@ -166,7 +182,7 @@ a {
 
 /* EVENTS PAGE */
 .logged-in-div {
-  padding: 1rem 0;
+  padding: 2.5rem 0 1rem 0;
 }
 .events {
   width: 80%;

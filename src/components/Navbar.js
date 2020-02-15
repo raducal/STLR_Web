@@ -32,18 +32,43 @@ const Navbar = () => {
     </React.Fragment>
   );
   return (
-    <nav className="navbar">
-      <div className="nav-container">
-        <div className="navbar-logo">
-          {/* <h3>STLR</h3> */}
-          <div className="logo"></div>
-        </div>
-        <ul className="nav-links">
-          {isAuthenticated ? authLinks : guestLinks}
-        </ul>
-      </div>
-    </nav>
+    <React.Fragment>
+      {isAuthenticated ? (
+        <nav className="navbar-other">
+          <div className="nav-container">
+            <div className="navbar-logo">
+              {/* <h3>STLR</h3> */}
+              <div className="logo"></div>
+            </div>
+            <ul className="nav-links">{authLinks}</ul>
+          </div>
+        </nav>
+      ) : (
+        <nav className="navbar-main">
+          <div className="nav-container">
+            <div className="navbar-logo">
+              {/* <h3>STLR</h3> */}
+              <div className="logo"></div>
+            </div>
+            <ul className="nav-links">{guestLinks}</ul>
+          </div>
+        </nav>
+      )}
+    </React.Fragment>
   );
 };
 
+// return (
+//   <nav className="navbar">
+//     <div className="nav-container">
+//       <div className="navbar-logo">
+//         {/* <h3>STLR</h3> */}
+//         <div className="logo"></div>
+//       </div>
+//       <ul className="nav-links">
+//         {isAuthenticated ? authLinks : guestLinks}
+//       </ul>
+//     </div>
+//   </nav>
+// );
 export default Navbar;
