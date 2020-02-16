@@ -67,7 +67,6 @@ const AuthProvider = ({ children }) => {
         logout,
         loadUser,
         events: state.events,
-        loading: state.loading,
         getQRID
       }}
     >

@@ -13,9 +13,11 @@ const EventProvider = ({ children }) => {
   const [qrCode_id, setqrID] = useState("");
   const [event_id, setID] = useState({});
   const [title, setTitle] = useState("");
-  const [event, setEvent] = useState([]);
+  const [expired, setExpired] = useState([]);
+  const [current, setCurrent] = useState([]);
 
   useEffect(() => {
+    sortEvents();
     const socket = openSocket("http://localhost:5000");
 
     let timer = setInterval(() => {
@@ -45,6 +47,44 @@ const EventProvider = ({ children }) => {
     setTitle("");
   };
 
+  const sortEvents = () => {
+    events.map(event => {
+      if (event.status === "current") {
+        setCurrent(oldArray => [...oldArray, event]);
+      } else {
+        setExpired(oldArray => [...oldArray, event]);
+      }
+    });
+  };
+
+  const convertToCSV = event => {
+    const expiredEvent = expired.find(expEvent => expEvent.qrID === event.qrID);
+    console.log(expiredEvent.present);
+    const csvRows = [];
+    const headers = ["StudentID"];
+    csvRows.push(`${headers.join(",")}`);
+    for (let row of expiredEvent.present) {
+      csvRows.push("" + `"${row}"`);
+      // csvRows.push(values.join(","));
+    }
+    return csvRows.join("\n");
+  };
+
+  const download = event => {
+    const data = convertToCSV(event);
+    console.log(data);
+    const blob = new Blob([data], { type: "text/csv" });
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.setAttribute("hidden", "");
+    a.setAttribute("href", url);
+    a.setAttribute("download", `${event.title}.csv`);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   return (
     <EventContext.Provider
       value={{
@@ -53,7 +93,10 @@ const EventProvider = ({ children }) => {
         closeModal,
         qrCode_id,
         event_id,
-        title
+        title,
+        current,
+        expired,
+        download
       }}
     >
       {children}

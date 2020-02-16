@@ -21,16 +21,13 @@ const Navbar = () => {
     </React.Fragment>
   );
 
-  const guestLinks = (
-    <React.Fragment>
-      <li>
-        <Link to="/">Home</Link>
-      </li>
-      <li>
-        <Link to="/about">About</Link>
-      </li>
-    </React.Fragment>
-  );
+  // const guestLinks = (
+  //   <React.Fragment>
+  //     <li>
+  //       <Link to="/">Home</Link>
+  //     </li>
+  //   </React.Fragment>
+  // );
   return (
     <React.Fragment>
       {isAuthenticated ? (
@@ -50,7 +47,7 @@ const Navbar = () => {
               {/* <h3>STLR</h3> */}
               <div className="logo"></div>
             </div>
-            <ul className="nav-links">{guestLinks}</ul>
+            {/* <ul className="nav-links">{guestLinks}</ul> */}
           </div>
         </nav>
       )}
