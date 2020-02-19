@@ -16,8 +16,17 @@ const EventProvider = ({ children }) => {
   const [expired, setExpired] = useState([]);
   const [current, setCurrent] = useState([]);
 
+  const sortEvents = () => {
+    events.map(event => {
+      if (event.status === "current") {
+        setCurrent(oldArray => [...oldArray, event]);
+      } else {
+        setExpired(oldArray => [...oldArray, event]);
+      }
+    });
+  };
+
   useEffect(() => {
-    sortEvents();
     const socket = openSocket("http://localhost:5000");
 
     let timer = setInterval(() => {
@@ -30,7 +39,7 @@ const EventProvider = ({ children }) => {
     }, 12000);
 
     return () => clearInterval(timer);
-  }, [modal, qrCode_id, events, loadUser]);
+  }, [modal, qrCode_id, events, loadUser, sortEvents]);
 
   const openModal = (qr, id, e_title) => {
     console.log(modal);
@@ -45,16 +54,6 @@ const EventProvider = ({ children }) => {
     setqrID("");
     setID({});
     setTitle("");
-  };
-
-  const sortEvents = () => {
-    events.map(event => {
-      if (event.status === "current") {
-        setCurrent(oldArray => [...oldArray, event]);
-      } else {
-        setExpired(oldArray => [...oldArray, event]);
-      }
-    });
   };
 
   const convertToCSV = event => {
@@ -96,7 +95,8 @@ const EventProvider = ({ children }) => {
         title,
         current,
         expired,
-        download
+        download,
+        sortEvents
       }}
     >
       {children}

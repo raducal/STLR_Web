@@ -14,30 +14,38 @@ const Events = () => {
     qrCode_id,
     event_id,
     title,
-    current,
-    expired,
     download
   } = useContext(EventContext);
   const { events } = useContext(AuthContext);
 
   const [state, setState] = useState(true);
+  const [expired, setExpired] = useState([]);
+  const [current, setCurrent] = useState([]);
 
-  events.map(event => {
-    if (event.due !== undefined) {
-      const findGMT = event.due.includes("GMT+");
-      if (findGMT) {
-        const index = event.due.indexOf("+");
-        const str = event.due.slice(0, index - 4);
-        const colon = str.indexOf(":");
-        const time = str.slice(colon - 2, colon + 3);
-        const date = str.slice(0, colon - 3);
-        event.time = time;
-        event.due = date;
+  useEffect(() => {
+    events.map(event => {
+      if (event.due !== undefined) {
+        const findGMT = event.due.includes("GMT+");
+        if (findGMT) {
+          const index = event.due.indexOf("+");
+          const str = event.due.slice(0, index - 4);
+          const colon = str.indexOf(":");
+          const time = str.slice(colon - 2, colon + 3);
+          const date = str.slice(0, colon - 3);
+          event.time = time;
+          event.due = date;
+        }
+      } else {
+        event.time = "N/A";
       }
-    } else {
-      event.time = "N/A";
-    }
-  });
+
+      if (event.status === "current") {
+        setCurrent(oldArray => [...oldArray, event]);
+      } else {
+        setExpired(oldArray => [...oldArray, event]);
+      }
+    });
+  }, []);
 
   const modalopen = (id, qrID, eventTitle) => {
     return (
