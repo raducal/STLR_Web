@@ -14,13 +14,17 @@ const Events = () => {
     qrCode_id,
     event_id,
     title,
-    download
+    download,
+    setCurrent,
+    setExpired,
+    current,
+    expired
   } = useContext(EventContext);
   const { events } = useContext(AuthContext);
 
   const [state, setState] = useState(true);
-  const [expired, setExpired] = useState([]);
-  const [current, setCurrent] = useState([]);
+  // const [expired, setExpired] = useState([]);
+  // const [current, setCurrent] = useState([]);
 
   useEffect(() => {
     events.map(event => {

@@ -27,6 +27,7 @@ const AuthProvider = ({ children }) => {
       const res = await axios.get("/scrape", {
         headers: { Authorization: `Bearer ${store.token}` }
       });
+      const res = await axios.get("/scrape");
       dispatch({
         type: "USER_LOADED",
         payload: {
