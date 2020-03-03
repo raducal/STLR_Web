@@ -4,17 +4,11 @@ import { AuthContext } from "../context/AuthContext";
 import Loading from "./Loading";
 
 const Home = historyInfo => {
-  const { loginLecturer, isAuthenticated } = useContext(AuthContext);
+  const { loginLecturer, isAuthenticated, loadUser, getEvents } = useContext(
+    AuthContext
+  );
 
   const { history } = historyInfo.historyInfo;
-
-  useEffect(() => {
-    console.log(loading);
-    if (isAuthenticated) {
-      history.push("/");
-    }
-    // eslint-disable-next-line
-  }, [isAuthenticated, history]);
 
   const [user, setUser] = useState({
     username: "",
@@ -36,22 +30,35 @@ const Home = historyInfo => {
     } else {
       console.log("yeahhh");
       setLoading(true);
+
       const loginAttempt = await loginLecturer({
         username,
         password
       });
+
+      console.log(loginAttempt);
 
       if (!loginAttempt) {
         setUser({
           username: "",
           password: ""
         });
+        console.log("not signed in");
         setLoading(false);
+      } else {
+        setLoading(false);
+        console.log("logged in");
       }
-
-      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadUser();
+    if (isAuthenticated) {
+      history.push("/");
+    }
+    // eslint-disable-next-line
+  }, [isAuthenticated, history]);
   return (
     <Fragment>
       {loading ? (

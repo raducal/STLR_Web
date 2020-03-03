@@ -23,10 +23,9 @@ const Events = () => {
   const { events } = useContext(AuthContext);
 
   const [state, setState] = useState(true);
-  // const [expired, setExpired] = useState([]);
-  // const [current, setCurrent] = useState([]);
 
   useEffect(() => {
+    console.log(events);
     events.map(event => {
       if (event.due !== undefined) {
         const findGMT = event.due.includes("GMT+");
@@ -62,7 +61,7 @@ const Events = () => {
             <p>{eventTitle}</p>
             <div key={qrID}>
               <QRCode
-                id="123456"
+                id={qrID}
                 value={qrID}
                 size={250}
                 level={"H"}
@@ -121,7 +120,7 @@ const Events = () => {
         ) : (
           <div>
             {expired.map(event => (
-              <div className="event-div" key={event._id}>
+              <div className="event-div" key={event.qrID}>
                 <div className="event-div-left">
                   <div className="event-due-title">
                     <p>Due</p>

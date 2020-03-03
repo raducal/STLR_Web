@@ -9,7 +9,11 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
 const LoggedIn = () => {
-  const { loadUser, events } = useContext(AuthContext);
+  // const { loadUser } = useContext(AuthContext);
+
+  // useEffect(() => {
+  //   loadUser();
+  // }, []);
 
   return (
     <div className="logged-in-div">

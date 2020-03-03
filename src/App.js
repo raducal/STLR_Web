@@ -16,7 +16,7 @@ import Events from "./components/Events";
 import Navbar from "./components/Navbar";
 import About from "./pages/About";
 import HomePage from "./pages/HomePage";
-import ExpiredEvents from "./components/ExpiredEvents";
+// import ExpiredEvents from "./components/ExpiredEvents";
 
 import { AuthContext } from "./context/AuthContext";
 

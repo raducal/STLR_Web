@@ -26,7 +26,7 @@ const EventProvider = ({ children }) => {
         setqrID(event1.qrID);
         socket.emit("qr", qrCode_id);
       }
-    }, 12000);
+    }, 10000);
 
     return () => clearInterval(timer);
   }, [modal, qrCode_id, events, loadUser]);

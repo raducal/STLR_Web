@@ -1,4 +1,4 @@
-import React, { useContext, useState, createContext, useEffect } from "react";
+import React, { createContext } from "react";
 import axios from "axios";
 import { useReducer } from "react";
 import AuthReducer from "./AuthReducer";
@@ -22,22 +22,49 @@ const AuthProvider = ({ children }) => {
 
   const loadUser = async () => {
     let store = JSON.parse(localStorage.getItem("login"));
+    console.log("load user running");
+    try {
+      if (store && store.isAuthenticated) {
+        console.log("loading user");
+        const res = await axios.get("/stlr/events", {
+          headers: { Authorization: `Bearer ${store.token}` }
+        });
 
-    if (store && store.isAuthenticated) {
-      const res = await axios.get("/scrape", {
-        headers: { Authorization: `Bearer ${store.token}` }
-      });
-      const res = await axios.get("/scrape");
-      dispatch({
-        type: "USER_LOADED",
-        payload: {
-          token: store.token,
-          event: res.data.event,
-          store
-        }
-      });
-    } else {
-      console.log("hello mop");
+        dispatch({
+          type: "USER_LOADED",
+          payload: {
+            token: store.token,
+            event: res.data.event,
+            store
+          }
+        });
+      } else {
+        console.log("not working load user");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getEvents = async () => {
+    let store = JSON.parse(localStorage.getItem("login"));
+    try {
+      if (store && store.isAuthenticated) {
+        const res = await axios.get("/stlr/events", {
+          headers: { Authorization: `Bearer ${store.token}` }
+        });
+
+        dispatch({
+          type: "GET_EVENTS",
+          payload: {
+            token: store.token,
+            event: res.data.event,
+            store
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -48,11 +75,14 @@ const AuthProvider = ({ children }) => {
       }
     };
     try {
-      const res = await axios.post("/scrape", formData, config);
+      const res = await axios.post("/stlr/events", formData, config);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
       loadUser();
+      return true;
     } catch (error) {
       dispatch({ type: "LOGIN_FAIL", payload: error.response.data.msg });
+      console.log("Not logged");
+      return false;
     }
   };
 
@@ -68,7 +98,8 @@ const AuthProvider = ({ children }) => {
         logout,
         loadUser,
         events: state.events,
-        getQRID
+        getQRID,
+        getEvents
       }}
     >
       {children}
