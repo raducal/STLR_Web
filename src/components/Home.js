@@ -4,9 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import Loading from "./Loading";
 
 const Home = historyInfo => {
-  const { loginLecturer, isAuthenticated, loadUser, getEvents } = useContext(
-    AuthContext
-  );
+  const { loginLecturer, isAuthenticated, loadUser } = useContext(AuthContext);
 
   const { history } = historyInfo.historyInfo;
 
@@ -30,10 +28,13 @@ const Home = historyInfo => {
     } else {
       console.log("yeahhh");
       setLoading(true);
-
+      const height = window.screen.height;
+      const width = window.screen.width;
       const loginAttempt = await loginLecturer({
         username,
-        password
+        password,
+        height,
+        width
       });
 
       console.log(loginAttempt);
@@ -53,12 +54,12 @@ const Home = historyInfo => {
   };
 
   useEffect(() => {
-    loadUser();
     if (isAuthenticated) {
       history.push("/");
     }
     // eslint-disable-next-line
   }, [isAuthenticated, history]);
+
   return (
     <Fragment>
       {loading ? (

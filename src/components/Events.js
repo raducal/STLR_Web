@@ -5,6 +5,7 @@ import QRCode from "qrcode.react";
 
 import { AuthContext } from "../context/AuthContext";
 import { EventContext } from "../context/EventContext";
+import Loading from "./Loading";
 
 const Events = () => {
   const {
@@ -20,7 +21,7 @@ const Events = () => {
     current,
     expired
   } = useContext(EventContext);
-  const { events } = useContext(AuthContext);
+  const { events, getEvents } = useContext(AuthContext);
 
   const [state, setState] = useState(true);
 
@@ -50,7 +51,7 @@ const Events = () => {
     });
   }, []);
 
-  const modalopen = (id, qrID, eventTitle) => {
+  const modalopen = (qrID, eventTitle) => {
     return (
       <div className="modal-background">
         <div className="modal-open">
@@ -112,7 +113,7 @@ const Events = () => {
               </div>
             ))}
             {modal ? (
-              modalopen(event_id, qrCode_id, title)
+              modalopen(qrCode_id, title)
             ) : (
               <div className="modal-closed"></div>
             )}

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo, useCallback } from "react";
 
 import QRCode from "./Qrgen";
 import Events from "./Events";
@@ -7,17 +7,25 @@ import { useEffect } from "react";
 import axios from "axios";
 
 import { AuthContext } from "../context/AuthContext";
+import Loading from "./Loading";
+import { EventContext } from "../context/EventContext";
 
 const LoggedIn = () => {
-  // const { loadUser } = useContext(AuthContext);
+  const { loadingEvents, getEvents, events } = useContext(AuthContext);
+  const { qrCode_id } = useContext(EventContext);
 
-  // useEffect(() => {
-  //   loadUser();
-  // }, []);
+  const getEventsOnChange = useCallback(() => {
+    return getEvents();
+  }, [events]);
+
+  useEffect(() => {
+    getEvents();
+    // getEventsOnChange();
+  }, []);
 
   return (
     <div className="logged-in-div">
-      <Events />
+      {loadingEvents ? <Loading /> : <Events />}
     </div>
   );
 };

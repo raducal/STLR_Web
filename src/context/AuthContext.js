@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import axios from "axios";
 import { useReducer } from "react";
 import AuthReducer from "./AuthReducer";
@@ -10,7 +10,8 @@ const AuthProvider = ({ children }) => {
     isAuthenticated: null,
     token: null,
     store: null,
-    events: []
+    events: [],
+    loading: true
   };
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
@@ -25,16 +26,10 @@ const AuthProvider = ({ children }) => {
     console.log("load user running");
     try {
       if (store && store.isAuthenticated) {
-        console.log("loading user");
-        const res = await axios.get("/stlr/events", {
-          headers: { Authorization: `Bearer ${store.token}` }
-        });
-
         dispatch({
           type: "USER_LOADED",
           payload: {
             token: store.token,
-            event: res.data.event,
             store
           }
         });
@@ -47,24 +42,22 @@ const AuthProvider = ({ children }) => {
   };
 
   const getEvents = async () => {
-    let store = JSON.parse(localStorage.getItem("login"));
     try {
-      if (store && store.isAuthenticated) {
+      console.log("running get events");
+      if (state.token !== null) {
         const res = await axios.get("/stlr/events", {
-          headers: { Authorization: `Bearer ${store.token}` }
+          headers: { Authorization: `Bearer ${state.token}` }
         });
 
         dispatch({
           type: "GET_EVENTS",
           payload: {
-            token: store.token,
-            event: res.data.event,
-            store
+            event: res.data.event
           }
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log("error");
     }
   };
 
@@ -76,6 +69,7 @@ const AuthProvider = ({ children }) => {
     };
     try {
       const res = await axios.post("/stlr/events", formData, config);
+      console.log(res.data);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
       loadUser();
       return true;
@@ -99,7 +93,8 @@ const AuthProvider = ({ children }) => {
         loadUser,
         events: state.events,
         getQRID,
-        getEvents
+        getEvents,
+        loadingEvents: state.loading
       }}
     >
       {children}

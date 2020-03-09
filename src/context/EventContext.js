@@ -7,7 +7,7 @@ import { AuthContext } from "./AuthContext";
 export const EventContext = createContext();
 
 const EventProvider = ({ children }) => {
-  const { events, getQRID, loadUser } = useContext(AuthContext);
+  const { events, getQRID, loadUser, getEvents } = useContext(AuthContext);
 
   const [modal, setModal] = useState(false);
   const [qrCode_id, setqrID] = useState("");
@@ -19,17 +19,17 @@ const EventProvider = ({ children }) => {
   useEffect(() => {
     const socket = openSocket("http://localhost:5000");
 
-    let timer = setInterval(() => {
+    setInterval(() => {
       if (modal) {
-        loadUser();
+        getEvents();
         let event1 = getQRID(title);
         setqrID(event1.qrID);
         socket.emit("qr", qrCode_id);
       }
     }, 10000);
 
-    return () => clearInterval(timer);
-  }, [modal, qrCode_id, events, loadUser]);
+    // return () => clearInterval(timer);
+  }, [modal, qrCode_id, events]);
 
   const openModal = (qr, id, e_title) => {
     console.log(modal);

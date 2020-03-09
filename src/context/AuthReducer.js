@@ -9,7 +9,8 @@ export default (state, action) => {
       return {
         ...state,
         ...action.payload,
-        isAuthenticated: true
+        isAuthenticated: true,
+        token: action.payload.token
       };
     case "LOGIN_FAIL":
     case "LOGOUT":
@@ -17,15 +18,23 @@ export default (state, action) => {
       return {
         ...state,
         isAuthenticated: false,
-        token: null
+        token: null,
+        events: []
       };
     case "USER_LOADED":
       // console.log(action.payload.event);
       return {
         ...state,
         isAuthenticated: true,
+        // events: action.payload.event,
+        store: action.payload.store,
+        token: action.payload.token
+      };
+    case "GET_EVENTS":
+      return {
+        ...state,
         events: action.payload.event,
-        store: action.payload.store
+        loading: false
       };
     default:
       return state;
