@@ -3,25 +3,25 @@ import React, { Fragment, useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import Loading from "./Loading";
 
-const Home = historyInfo => {
+const Home = (historyInfo) => {
   const { loginLecturer, isAuthenticated, loadUser } = useContext(AuthContext);
 
   const { history } = historyInfo.historyInfo;
 
   const [user, setUser] = useState({
     username: "",
-    password: ""
+    password: "",
   });
 
   const [loading, setLoading] = useState(false);
 
   const { username, password } = user;
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (username === "" || password === "") {
       console.log("nope");
@@ -33,8 +33,6 @@ const Home = historyInfo => {
       const loginAttempt = await loginLecturer({
         username,
         password,
-        height,
-        width
       });
 
       console.log(loginAttempt);
@@ -42,7 +40,7 @@ const Home = historyInfo => {
       if (!loginAttempt) {
         setUser({
           username: "",
-          password: ""
+          password: "",
         });
         console.log("not signed in");
         setLoading(false);

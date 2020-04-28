@@ -11,12 +11,12 @@ const AuthProvider = ({ children }) => {
     token: null,
     store: null,
     events: [],
-    loading: true
+    loading: true,
   };
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-  const getQRID = title => {
-    let event1 = state.events.find(event => event.title === title);
+  const getQRID = (title) => {
+    let event1 = state.events.find((event) => event.title === title);
     console.log(event1);
     return event1;
   };
@@ -30,8 +30,8 @@ const AuthProvider = ({ children }) => {
           type: "USER_LOADED",
           payload: {
             token: store.token,
-            store
-          }
+            store,
+          },
         });
       } else {
         console.log("not working load user");
@@ -46,14 +46,14 @@ const AuthProvider = ({ children }) => {
       console.log("running get events");
       if (state.token !== null) {
         const res = await axios.get("/stlr/events", {
-          headers: { Authorization: `Bearer ${state.token}` }
+          headers: { Authorization: `Bearer ${state.token}` },
         });
 
         dispatch({
           type: "GET_EVENTS",
           payload: {
-            event: res.data.event
-          }
+            event: res.data.event,
+          },
         });
       }
     } catch (error) {
@@ -61,14 +61,14 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const loginLecturer = async formData => {
+  const loginLecturer = async (formData) => {
     const config = {
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
     try {
-      const res = await axios.post("/stlr/events", formData, config);
+      const res = await axios.post("/stlr/users/lect", formData, config);
       console.log(res.data);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
       loadUser();
@@ -94,7 +94,7 @@ const AuthProvider = ({ children }) => {
         events: state.events,
         getQRID,
         getEvents,
-        loadingEvents: state.loading
+        loadingEvents: state.loading,
       }}
     >
       {children}
