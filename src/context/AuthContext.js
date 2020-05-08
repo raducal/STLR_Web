@@ -21,6 +21,24 @@ const AuthProvider = ({ children }) => {
     return event1;
   };
 
+  const updateQR = (title, uuid) => {
+    let tempEvents = [...state.events];
+    tempEvents.map((event) => {
+      if (event.title === title) {
+        event.qrID = uuid;
+      }
+
+      return event;
+    });
+
+    dispatch({
+      type: "GET_EVENTS",
+      payload: {
+        event: tempEvents,
+      },
+    });
+  };
+
   const loadUser = async () => {
     let store = JSON.parse(localStorage.getItem("login"));
     console.log("load user running");
@@ -95,6 +113,7 @@ const AuthProvider = ({ children }) => {
         getQRID,
         getEvents,
         loadingEvents: state.loading,
+        updateQR,
       }}
     >
       {children}

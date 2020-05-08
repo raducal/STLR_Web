@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import QRCode from "qrcode.react";
 
 import { AuthContext } from "../context/AuthContext";
 import { EventContext } from "../context/EventContext";
-import Loading from "./Loading";
+
+import Modal from "./Modal";
 
 const Events = () => {
   const {
@@ -19,15 +17,14 @@ const Events = () => {
     setCurrent,
     setExpired,
     current,
-    expired
+    expired,
   } = useContext(EventContext);
   const { events, getEvents } = useContext(AuthContext);
 
   const [state, setState] = useState(true);
 
   useEffect(() => {
-    console.log(events);
-    events.map(event => {
+    events.map((event) => {
       if (event.due !== undefined) {
         const findGMT = event.due.includes("GMT+");
         if (findGMT) {
@@ -44,36 +41,12 @@ const Events = () => {
       }
 
       if (event.status === "current") {
-        setCurrent(oldArray => [...oldArray, event]);
+        setCurrent((oldArray) => [...oldArray, event]);
       } else {
-        setExpired(oldArray => [...oldArray, event]);
+        setExpired((oldArray) => [...oldArray, event]);
       }
     });
   }, []);
-
-  const modalopen = (qrID, eventTitle) => {
-    return (
-      <div className="modal-background">
-        <div className="modal-open">
-          <button onClick={() => closeModal()} className="close-modal-btn">
-            X
-          </button>
-          <div className="modal-info">
-            <p>{eventTitle}</p>
-            <div key={qrID}>
-              <QRCode
-                id={qrID}
-                value={qrID}
-                size={250}
-                level={"H"}
-                includeMargin={true}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <React.Fragment>
@@ -88,7 +61,7 @@ const Events = () => {
         </div>
         {state ? (
           <div>
-            {current.map(event => (
+            {current.map((event) => (
               <div className="event-div" key={event._id}>
                 <div className="event-div-left">
                   <div className="event-due-title">
@@ -113,14 +86,18 @@ const Events = () => {
               </div>
             ))}
             {modal ? (
-              modalopen(qrCode_id, title)
+              <Modal
+                qrID={qrCode_id}
+                eventTitle={title}
+                closeModal={closeModal}
+              />
             ) : (
               <div className="modal-closed"></div>
             )}
           </div>
         ) : (
           <div>
-            {expired.map(event => (
+            {expired.map((event) => (
               <div className="event-div" key={event.qrID}>
                 <div className="event-div-left">
                   <div className="event-due-title">

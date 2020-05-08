@@ -1,13 +1,16 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import openSocket from "socket.io-client";
+import { v4 as uuidv4 } from "uuid";
 
 import { AuthContext } from "./AuthContext";
 
 export const EventContext = createContext();
 
 const EventProvider = ({ children }) => {
-  const { events, getQRID, loadUser, getEvents } = useContext(AuthContext);
+  const { events, getQRID, loadUser, getEvents, updateQR } = useContext(
+    AuthContext
+  );
 
   const [modal, setModal] = useState(false);
   const [qrCode_id, setqrID] = useState("");
@@ -18,21 +21,26 @@ const EventProvider = ({ children }) => {
 
   useEffect(() => {
     const socket = openSocket("http://localhost:5000");
-
-    setInterval(() => {
-      if (modal) {
-        getEvents();
-        let event1 = getQRID(title);
-        setqrID(event1.qrID);
-        socket.emit("qr", qrCode_id);
-      }
-    }, 10000);
-
-    // return () => clearInterval(timer);
-  }, [modal, qrCode_id, events]);
+    var refresh = null;
+    if (modal) {
+      refresh = setInterval(function () {
+        let newQRID = uuidv4();
+        socket.emit("qr", { qrCode_id, newQRID });
+        socket.on("done", (id) => {
+          console.log(id);
+          setqrID(id);
+        });
+        clearInterval(refresh);
+        refresh = null;
+      }, 15000);
+    } else {
+      clearInterval(refresh);
+      refresh = null;
+      socket.disconnect(true);
+    }
+  }, [modal, qrCode_id]);
 
   const openModal = (qr, id, e_title) => {
-    console.log(modal);
     setModal(true);
     setqrID(qr);
     setID(id);
@@ -44,10 +52,13 @@ const EventProvider = ({ children }) => {
     setqrID("");
     setID({});
     setTitle("");
+    getEvents();
   };
 
-  const convertToCSV = event => {
-    const expiredEvent = expired.find(expEvent => expEvent.qrID === event.qrID);
+  const convertToCSV = (event) => {
+    const expiredEvent = expired.find(
+      (expEvent) => expEvent.qrID === event.qrID
+    );
     console.log(expired);
     const csvRows = [];
     const headers = ["StudentID"];
@@ -59,7 +70,7 @@ const EventProvider = ({ children }) => {
     return csvRows.join("\n");
   };
 
-  const download = event => {
+  const download = (event) => {
     const data = convertToCSV(event);
     console.log(data);
     const blob = new Blob([data], { type: "text/csv" });
@@ -89,7 +100,7 @@ const EventProvider = ({ children }) => {
         setCurrent,
         setExpired,
         current,
-        expired
+        expired,
         // sortEvents
       }}
     >
